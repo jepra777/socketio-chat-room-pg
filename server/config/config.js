@@ -6,7 +6,7 @@ module.exports = {
     "database": "db_chat",
     "host": "127.0.0.1",
     "dialect": "postgres",
-    "port": process.env.DB_PORT,
-    "logging": true
+    "port": process.env.DB_PORT
+    // "logging": true
   }
 }
