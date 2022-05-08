@@ -24,9 +24,9 @@ class loginController {
                 Role: user.Role
             })
 
-            res.cookie("access_token", access_token, {
-                httpOnly: true
-            })
+            // res.cookie("access_token", access_token, {
+            //     httpOnly: true
+            // })
             
             return res.status(200).json( { 
                 id: user.id,
