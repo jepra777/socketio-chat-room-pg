@@ -27,7 +27,7 @@ export default function Login() {
             return response.json();
             })
             .then((data) => {
-            console.log(data, 'This is the Data')
+            console.log(data)
             if (data.message === "Success"){
                 localStorage.setItem('id', data.id);
                 localStorage.setItem('role', data.Role);

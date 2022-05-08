@@ -1,10 +1,17 @@
 import { useState } from 'react'
 import { Flex, Button, IconButton, HStack, VStack, Text, Heading } from '@chakra-ui/react'
-import { HamburgerIcon, CloseIcon, AtSignIcon, AddIcon } from '@chakra-ui/icons'
-import { Link } from 'react-router-dom'
+import { HamburgerIcon, CloseIcon, AtSignIcon, AddIcon, ChatIcon } from '@chakra-ui/icons'
+import { Link, useNavigate } from 'react-router-dom'
 
 export default function Navbar() {
     const [display, changeDisplay] = useState('none')
+
+    const removeAccessToken = () => {
+        window.localStorage.clear();
+    } 
+
+    const navigate = useNavigate()
+
     return (
        <>
        <Flex>
@@ -30,16 +37,40 @@ export default function Navbar() {
                                 Home
                             </Button>
                         </Link>
+
+                        {((localStorage.getItem("role") === null)) &&
                         <Link to="/register">
-                            <Button colorScheme='gray' leftIcon={<AtSignIcon />}>
-                                Register
-                            </Button>
+                         <Button colorScheme='gray' leftIcon={<AtSignIcon />}>
+                             Register
+                         </Button>
                         </Link>
+                        }
+
+                        {((localStorage.getItem("role") === null)) &&
                         <Link to="/login">
                         <Button colorScheme='gray' leftIcon={<AddIcon />}>
                             Log In
                         </Button>
                         </Link>
+                        }
+
+                        {((localStorage.getItem("role") === "user") || (localStorage.getItem("role") === "admin") || (localStorage.getItem("role") === "superAdmin")) &&
+                         <Link to="/chat">
+                         <Button colorScheme='gray' leftIcon={<ChatIcon />}>
+                             Chat
+                         </Button>
+                         </Link>
+                        }
+
+                        {((localStorage.getItem("role") === "user") || (localStorage.getItem("role") === "admin") || (localStorage.getItem("role") === "superAdmin")) &&
+                         <Button 
+                            colorScheme='gray' 
+                            leftIcon={<CloseIcon />}
+                            onClick={ () => {removeAccessToken(); navigate("/")} }
+                         >
+                             Sign Out
+                         </Button>
+                        }
                     </HStack>
                </Flex>
                <IconButton 
@@ -83,21 +114,45 @@ export default function Navbar() {
                 mt={10}
             >
                     <VStack>
-                        <Link to="/">
+                    <Link to="/">
                             <Button colorScheme='gray' leftIcon={<HamburgerIcon />}>
                                 Home
                             </Button>
                         </Link>
+
+                        {((localStorage.getItem("role") === null)) &&
                         <Link to="/register">
-                            <Button colorScheme='gray' leftIcon={<AtSignIcon />}>
-                                Register
-                            </Button>
+                         <Button colorScheme='gray' leftIcon={<AtSignIcon />}>
+                             Register
+                         </Button>
                         </Link>
+                        }
+
+                        {((localStorage.getItem("role") === null)) &&
                         <Link to="/login">
                         <Button colorScheme='gray' leftIcon={<AddIcon />}>
-                            Login
+                            Log In
                         </Button>
                         </Link>
+                        }
+
+                        {((localStorage.getItem("role") === "user") || (localStorage.getItem("role") === "admin") || (localStorage.getItem("role") === "superAdmin")) &&
+                         <Link to="/chat">
+                         <Button colorScheme='gray' leftIcon={<ChatIcon />}>
+                             Chat
+                         </Button>
+                         </Link>
+                        }
+
+                        {((localStorage.getItem("role") === "user") || (localStorage.getItem("role") === "admin") || (localStorage.getItem("role") === "superAdmin")) &&
+                         <Button 
+                            colorScheme='gray' 
+                            leftIcon={<CloseIcon />}
+                            onClick={ () => {removeAccessToken(); navigate("/")} }
+                         >
+                             Sign Out
+                         </Button>
+                        }
                     </VStack>
             </Flex>
        </Flex>

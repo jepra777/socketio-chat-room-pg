@@ -18,7 +18,7 @@ export default function Home() {
             mb={16}
         >
             <Center>
-                <Text Text fontSize='xl'>
+                <Text fontSize='xl'>
                     Chat with Room using SocketIO, ReactJS and Postgres JavaScript
                 </Text>
             </Center>
