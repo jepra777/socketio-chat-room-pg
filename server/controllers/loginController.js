@@ -30,7 +30,7 @@ class loginController {
             
             return res.status(200).json( { 
                 id: user.id,
-                Role: user.role,
+                Role: user.Role,
                 Access_token: access_token,
                 message: "Success"
             } )
