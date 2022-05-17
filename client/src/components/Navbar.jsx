@@ -1,16 +1,38 @@
-import { useState } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { Flex, Button, IconButton, HStack, VStack, Text, Heading } from '@chakra-ui/react'
 import { HamburgerIcon, CloseIcon, AtSignIcon, AddIcon, ChatIcon } from '@chakra-ui/icons'
 import { Link, useNavigate } from 'react-router-dom'
+import {MainContext} from '../helpers/mainContext'
+import {SocketContext} from '../helpers/socketContext'
 
 export default function Navbar() {
     const [display, changeDisplay] = useState('none')
-
+    const {room, setRoom} = useContext(MainContext)
+    const socket = useContext(SocketContext)
     const removeAccessToken = () => {
         window.localStorage.clear();
     } 
 
     const navigate = useNavigate()
+
+    useEffect(() => {
+        fetch('http://localhost:3001/v1/chat/room/', {
+            credentials: "include",
+        })
+      .then((data) => data.json())
+      .then((data) => setRoom(data.Room))
+      .catch((err) => console.log(err));
+    }, [])
+   
+    const handleClick = () => {
+        socket.emit('login', {room}, error => {
+            navigate('/chat')
+        })
+   }
+
+   const handleClickAdmin = () => {
+    navigate('/rooms')
+}
 
     return (
        <>
@@ -56,10 +78,24 @@ export default function Navbar() {
 
                         {((localStorage.getItem("role") === "user") || (localStorage.getItem("role") === "admin") || (localStorage.getItem("role") === "superAdmin")) &&
                          <Link to="/chat">
-                         <Button colorScheme='gray' leftIcon={<ChatIcon />}>
+                         <Button 
+                            colorScheme='gray' 
+                            leftIcon={<ChatIcon />}
+                            onClick={handleClick}
+                        >
                              Chat
                          </Button>
                          </Link>
+                        }
+
+                        {((localStorage.getItem("role") === "user") || (localStorage.getItem("role") === "admin") || (localStorage.getItem("role") === "superAdmin")) &&
+                         <Button 
+                            colorScheme='gray' 
+                            leftIcon={<ChatIcon />}
+                            onClick={handleClickAdmin}
+                        >
+                             Chat Admin
+                         </Button>
                         }
 
                         {((localStorage.getItem("role") === "user") || (localStorage.getItem("role") === "admin") || (localStorage.getItem("role") === "superAdmin")) &&
